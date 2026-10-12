@@ -1,6 +1,7 @@
 package mygame.Modelo;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +16,13 @@ public class Player {
 	private int altura, largura;
 	private List <Tiro> tiros;  //POR NAO SABER QUANTOS TIROS O JOGADOR VAI ATIRAR
 	private long ultimoTiro = 0;
-	private final long INTERVALO_TIRO = 500; //MILESSEGUNDOS
-	
+	private final long INTERVALO_TIRO = 200; //MILESSEGUNDOS
+	private boolean isVisivel;
 	
 	public Player() {
 		this.x = 100;
 		this.y = 100;
-		
+		isVisivel = true;
 		tiros = new ArrayList<Tiro>();
 	}
 	public void load() {  //DEFINIR A IMAGEM DO PLAYER
@@ -31,7 +32,7 @@ public class Player {
 		largura = imagem.getWidth(null);
 		
 	}
-	public void update() {    //METODO PARA A IMAGEM DO HEROI SE MOVA NO EIXO X E Y
+	public void update(int larguraTela, int alturaTela) {    //METODO PARA A IMAGEM DO HEROI SE MOVA NO EIXO X E Y
 		x += dx;
 		y += dy;
 		
@@ -43,12 +44,12 @@ public class Player {
 		        y = 0;
 		    }
 
-		    if (x > 1024 - largura) {
-		        x = 1024 - largura;
+		    if (x > larguraTela - largura) {
+		        x = larguraTela - largura;
 		    }
 
-		    if (y > 728 - altura) {
-		        y = 728 - altura;
+		    if (y > alturaTela - altura) {
+		        y = alturaTela - altura;
 		    }
 		
 		
@@ -59,6 +60,10 @@ public class Player {
 		this.tiros.add(new Tiro (x + largura, y + (altura /2)));
 		ultimoTiro = agora;
 		}
+		
+	}
+	public Rectangle getBounds() {
+		return new Rectangle (x, y, largura, altura); //CRIA UM RETANGULO EM VOLTA DA NAVE 
 	}
 	public void keyPressed(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
@@ -66,33 +71,40 @@ public class Player {
 		if (codigo == KeyEvent.VK_SPACE) {
 			tiroSimples();
 		}  
-		if (codigo == KeyEvent.VK_UP) {
+		if (codigo == KeyEvent.VK_W) {
 			dy= -5;
 		}
-		if (codigo == KeyEvent.VK_DOWN) {
+		if (codigo == KeyEvent.VK_S) {
 			dy= 5;
 		}
-		if (codigo == KeyEvent.VK_LEFT) {
+		if (codigo == KeyEvent.VK_A) {
 			dx= -5;
 		}
-		if (codigo == KeyEvent.VK_RIGHT) {
+		if (codigo == KeyEvent.VK_D) {
 			dx= 5;
 		}
 	}
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-		if (codigo == KeyEvent.VK_UP) {
+		if (codigo == KeyEvent.VK_W) {
 			dy= 0;
 		}
-		if (codigo == KeyEvent.VK_DOWN) {
+		if (codigo == KeyEvent.VK_S) {
 			dy= 0;
 		}
-		if (codigo == KeyEvent.VK_LEFT) {
+		if (codigo == KeyEvent.VK_A) {
 			dx= 0;
 		}
-		if (codigo == KeyEvent.VK_RIGHT) {
+		if (codigo == KeyEvent.VK_D) {
 			dx= 0;
 		}
+	}
+	
+	public boolean isVisivel() {
+		return isVisivel;
+	}
+	public void setVisivel(boolean isVisivel) {
+		this.isVisivel = isVisivel;
 	}
 	public int getX() {
 		return x;

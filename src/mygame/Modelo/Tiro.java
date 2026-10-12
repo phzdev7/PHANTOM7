@@ -1,6 +1,7 @@
 package mygame.Modelo;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -12,7 +13,7 @@ public class Tiro {
 	private boolean isVisivel;
 	
 	private static final int LARGURA = 1925;  //ATÉ ONDE VAI O TIRO
-	private static int VELOCIDADE = 3;       //	VELOCIDADE DO TIRO
+	private static int VELOCIDADE = 5;       //	VELOCIDADE DO TIRO
 	
 	public Tiro(int x, int y) {
 		this.x = x;
@@ -34,6 +35,9 @@ public class Tiro {
 			if (this.x > LARGURA) {
 				isVisivel = false;  // TIRO VAI SUMIR
 			}
+	}
+	public Rectangle getBounds() {
+		return new Rectangle (x, y, largura, altura); //CRIA UM RETANGULO EM VOLTA DA NAVE 
 	}
 
 	public boolean isVisivel() {
